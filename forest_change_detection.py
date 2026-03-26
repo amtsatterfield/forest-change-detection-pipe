@@ -9,7 +9,8 @@ import planetary_computer
 # ---------------------------
 catalog = Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
 
-bbox = [-123, 37, -121, 39]  # same region as earlier example
+# [min_lon, min_lat, max_lon, max_lat] (WGS84 / EPSG:4326)
+bbox = [-84.607430,31.766413,-84.297409,31.952162] # SW GA
 
 def get_image(date_range):
     search = catalog.search(
@@ -24,6 +25,7 @@ def get_image(date_range):
 
     signed_item = planetary_computer.sign(item)
 
+    # Get the red and near-infrared bands fro NDVI calculation
     red = signed_item.assets["B04"].href
     nir = signed_item.assets["B08"].href
 
